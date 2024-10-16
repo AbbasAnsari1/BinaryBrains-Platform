@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Aptitude Quiz - BinaryBrains</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid Layout */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Question Tile */
+        .question-tile {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-tile p {
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        /* Submit Button */
+        .cta-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Result Section */
+        .result {
+            text-align: center;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>Random Aptitude Quiz</h1>
+    </header>
+
+    <section class="quiz-container">
+        <form id="quiz-form">
+            <div class="question-grid" id="questions"></div>
+            <button type="submit" class="cta-button">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </section>
+
+    <footer>&copy; 2024 BinaryBrains. All rights reserved.</footer>
+
+    <script>
+        const questions = [
+            { question: "1. If a car travels 60 km in 1 hour, how far will it travel in 4 hours?", options: ["120 km", "240 km", "180 km", "300 km"], answer: "240 km" },
+            { question: "2. A clock shows the time as 3:15. What is the angle between the hour and the minute hand?", options: ["45 degrees", "90 degrees", "135 degrees", "150 degrees"], answer: "135 degrees" },
+            { question: "3. What is the value of 8² - 5²?", options: ["39", "55", "49", "63"], answer: "39" },
+            { question: "4. If 5 workers can build 5 walls in 5 days, how many workers are needed to build 10 walls in 10 days?", options: ["5", "10", "15", "20"], answer: "5" },
+            { question: "5. In a race of 100 meters, A runs 10 meters while B runs 9 meters. If they both start together, who will win?", options: ["A", "B", "Tie", "Not enough information"], answer: "A" },
+            { question: "6. If the ratio of boys to girls in a class is 3:4 and there are 28 students in total, how many boys are there?", options: ["12", "14", "16", "18"], answer: "12" },
+            { question: "7. What is 15% of 200?", options: ["25", "30", "35", "40"], answer: "30" },
+            { question: "8. How many days are there in 4 leap years?", options: ["1460", "1461", "1462", "1463"], answer: "1461" },
+            { question: "9. If a triangle has angles of 30° and 60°, what is the third angle?", options: ["60 degrees", "90 degrees", "120 degrees", "150 degrees"], answer: "90 degrees" },
+            { question: "10. A boat travels 30 km upstream in 2 hours. What is the speed of the boat in still water?", options: ["15 km/h", "20 km/h", "25 km/h", "30 km/h"], answer: "25 km/h" },
+            { question: "11. What is the next number in the series: 1, 4, 9, 16, ?", options: ["20", "21", "24", "25"], answer: "25" },
+            { question: "12. How many sides does a dodecagon have?", options: ["10", "11", "12", "13"], answer: "12" },
+            { question: "13. A man buys a shirt for $20 and sells it for $25. What is his profit percentage?", options: ["20%", "25%", "30%", "35%"], answer: "25%" },
+            { question: "14. If the sum of two numbers is 30 and their difference is 10, what are the numbers?", options: ["20 and 10", "25 and 5", "15 and 15", "18 and 12"], answer: "20 and 10" },
+            { question: "15. What is the area of a rectangle with length 10 cm and width 5 cm?", options: ["50 cm²", "60 cm²", "70 cm²", "80 cm²"], answer: "50 cm²" },
+            { question: "16. In a class of 30 students, if 18 are girls, how many are boys?", options: ["10", "12", "14", "16"], answer: "12" },
+            { question: "17. If 3 apples cost $1.50, how much do 12 apples cost?", options: ["$4.00", "$5.00", "$6.00", "$7.00"], answer: "$6.00" },
+            { question: "18. A rectangle has a perimeter of 36 cm. If the length is 10 cm, what is the width?", options: ["6 cm", "8 cm", "10 cm", "12 cm"], answer: "8 cm" },
+            { question: "19. If 1 dozen eggs cost $3, how much do 3 dozen eggs cost?", options: ["$6", "$7", "$8", "$9"], answer: "$9" },
+            { question: "20. If a car costs $25,000 and depreciates by 20% in the first year, what is its value after one year?", options: ["$20,000", "$22,000", "$23,000", "$24,000"], answer: "$20,000" },
+            { question: "21. What is the least common multiple (LCM) of 4 and 6?", options: ["12", "24", "20", "18"], answer: "12" },
+            { question: "22. A train travels at a speed of 60 km/h. How far will it travel in 2.5 hours?", options: ["150 km", "120 km", "100 km", "80 km"], answer: "150 km" },
+            { question: "23. If a triangle has sides of length 3 cm, 4 cm, and 5 cm, what is its area?", options: ["6 cm²", "8 cm²", "10 cm²", "12 cm²"], answer: "6 cm²" },
+            { question: "24. If a book costs $15 and is on sale for 20% off, what is the sale price?", options: ["$10", "$12", "$13", "$14"], answer: "$12" },
+            { question: "25. A recipe requires 3 cups of flour for 12 cookies. How many cups are needed for 30 cookies?", options: ["5", "7", "8", "10"], answer: "7" },
+            { question: "26. If a 10% discount is given on a $50 item, how much do you pay?", options: ["$40", "$42", "$45", "$48"], answer: "$45" },
+            { question: "27. A triangle has one angle of 90° and another of 45°. What is the third angle?", options: ["45 degrees", "90 degrees", "60 degrees", "75 degrees"], answer: "45 degrees" },
+            { question: "28. If the average of five numbers is 20, what is the sum of those numbers?", options: ["80", "100", "120", "140"], answer: "100" },
+            { question: "29. How many feet are in 2 yards?", options: ["3", "4", "5", "6"], answer: "6" },
+            { question: "30. If a box contains 12 red, 10 blue, and 8 green balls, what fraction of the balls are red?", options: ["12/30", "10/30", "8/30", "1/2"], answer: "12/30" },
+        ];
+
+        // Display questions dynamically
+        const questionsContainer = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'question-tile';
+            tile.innerHTML = `
+                <p>${q.question}</p>
+                ${q.options.map((option) => `
+                    <label>
+                        <input type="radio" name="question${index}" value="${option}">
+                        ${option}
+                    </label>
+                `).join('')}
+            `;
+            questionsContainer.appendChild(tile);
+        });
+
+        // Calculate score on form submission
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('result').innerText = `Your score is ${score} out of ${questions.length}`;
+        });
+    </script>
+</body>
+</html>
