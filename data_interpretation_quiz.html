@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Interpretation Quiz - BinaryBrains</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid Layout */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Question Tile */
+        .question-tile {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-tile p {
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        /* Submit Button */
+        .cta-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Result Section */
+        .result {
+            text-align: center;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>Data Interpretation Quiz</h1>
+    </header>
+
+    <section class="quiz-container">
+        <form id="quiz-form">
+            <div class="question-grid" id="questions"></div>
+            <button type="submit" class="cta-button">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </section>
+
+    <footer>&copy; 2024 BinaryBrains. All rights reserved.</footer>
+
+    <script>
+        const questions = [
+            { question: "1. If 5% of a number is 20, what is the number?", options: ["300", "400", "500", "600"], answer: "400" },
+            { question: "2. A survey shows that 30% of people prefer tea over coffee. If 600 people were surveyed, how many prefer tea?", options: ["150", "180", "200", "240"], answer: "180" },
+            { question: "3. A store had a sale of 25% off on a product that originally costs $80. What is the sale price?", options: ["$50", "$60", "$70", "$75"], answer: "$60" },
+            { question: "4. If the ratio of boys to girls in a class is 3:2 and there are 40 students, how many boys are there?", options: ["24", "16", "20", "12"], answer: "24" },
+            { question: "5. A box contains 3 red, 2 green, and 5 blue balls. What is the probability of picking a red ball?", options: ["3/10", "1/3", "1/2", "2/5"], answer: "3/10" },
+            { question: "6. If a car travels 120 km in 1.5 hours, what is its average speed?", options: ["60 km/h", "70 km/h", "80 km/h", "90 km/h"], answer: "80 km/h" },
+            { question: "7. A person bought 10 pens for $5. How much would 25 pens cost?", options: ["$10", "$12.50", "$15", "$20"], answer: "$12.50" },
+            { question: "8. If the cost of 3 notebooks is $6, what is the cost of 10 notebooks?", options: ["$15", "$20", "$18", "$25"], answer: "$20" },
+            { question: "9. A vehicle depreciates at a rate of 15% per year. If it is worth $10000 now, what will be its value in one year?", options: ["$8500", "$9000", "$9500", "$10000"], answer: "$8500" },
+            { question: "10. If a recipe requires 2 cups of flour for 3 cakes, how many cups are needed for 9 cakes?", options: ["4 cups", "6 cups", "8 cups", "12 cups"], answer: "6 cups" },
+            { question: "11. A man spends 40% of his salary on rent. If his salary is $2500, how much does he spend on rent?", options: ["$1000", "$800", "$1200", "$600"], answer: "$1000" },
+            { question: "12. A train takes 2 hours to cover 100 km. How long will it take to cover 300 km?", options: ["4 hours", "5 hours", "6 hours", "7 hours"], answer: "6 hours" },
+            { question: "13. If a worker can complete a task in 10 hours, how many workers are needed to complete it in 2 hours?", options: ["3", "4", "5", "6"], answer: "5" },
+            { question: "14. A bottle can hold 1.5 liters of liquid. How many bottles are needed to hold 12 liters?", options: ["7", "8", "9", "10"], answer: "8" },
+            { question: "15. A car travels at a speed of 60 km/h. How far can it travel in 2.5 hours?", options: ["120 km", "150 km", "180 km", "200 km"], answer: "150 km" },
+            { question: "16. If the ratio of cats to dogs is 4:3 and there are 21 dogs, how many cats are there?", options: ["24", "30", "18", "12"], answer: "24" },
+            { question: "17. If 20% of a number is 50, what is the number?", options: ["200", "250", "300", "400"], answer: "250" },
+            { question: "18. A student scores 80 marks out of 100 in a test. What is the percentage?", options: ["70%", "75%", "80%", "85%"], answer: "80%" },
+            { question: "19. If a shirt originally costs $40 and is on sale for 30% off, what is the sale price?", options: ["$28", "$30", "$32", "$34"], answer: "$28" },
+            { question: "20. A recipe requires 3 liters of milk for 5 servings. How much milk is needed for 15 servings?", options: ["7.5 liters", "8 liters", "9 liters", "10 liters"], answer: "9 liters" },
+            { question: "21. A class has 30 students, and 40% of them are girls. How many boys are there?", options: ["12", "15", "18", "20"], answer: "18" },
+            { question: "22. If the total cost of 5 items is $200, what is the average cost per item?", options: ["$30", "$35", "$40", "$45"], answer: "$40" },
+            { question: "23. A car covers 80 km in 1 hour and 20 minutes. What is its speed in km/h?", options: ["50 km/h", "60 km/h", "70 km/h", "75 km/h"], answer: "60 km/h" },
+            { question: "24. If a worker earns $300 in 5 days, how much will he earn in 15 days?", options: ["$600", "$700", "$800", "$900"], answer: "$900" },
+            { question: "25. A jar has 6 red balls and 4 blue balls. What is the probability of picking a blue ball?", options: ["2/5", "1/3", "4/10", "1/2"], answer: "2/5" },
+            { question: "26. A store sells a shirt for $50 after a 20% discount. What was the original price?", options: ["$60", "$70", "$80", "$90"], answer: "$62.50" },
+            { question: "27. If a fruit basket contains 8 apples, 6 bananas, and 4 oranges, what is the ratio of apples to total fruits?", options: ["2:5", "4:9", "8:18", "1:3"], answer: "2:5" },
+            { question: "28. A rectangle has a length of 10 cm and a width of 5 cm. What is its area?", options: ["30 cm²", "50 cm²", "60 cm²", "70 cm²"], answer: "50 cm²" },
+            { question: "29. If the population of a town is 2000 and increases by 5% annually, what will be its population after one year?", options: ["2100", "2050", "2150", "2005"], answer: "2100" },
+            { question: "30. A company produces 200 units of a product in 4 hours. How many units can it produce in 10 hours?", options: ["400", "450", "500", "550"], answer: "500" }
+        ];
+
+        // Load questions dynamically
+        const questionsContainer = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'question-tile';
+            tile.innerHTML = `
+                <p>${q.question}</p>
+                ${q.options.map((option) => `
+                    <label>
+                        <input type="radio" name="question${index}" value="${option}">
+                        ${option}
+                    </label>
+                `).join('')}
+            `;
+            questionsContainer.appendChild(tile);
+        });
+
+        // Calculate score on form submission
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('result').innerText = `Your score is ${score} out of ${questions.length}`;
+        });
+    </script>
+</body>
+</html>

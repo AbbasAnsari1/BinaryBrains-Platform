@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Code Editor with Output Block</title>
+    <link rel="stylesheet" href="/WD/BinaryBrains/css/python.css">
+</head>
+<body>
+    <header class="site-header">
+        <h1>Python Code Editor</h1>
+    </header>
+
+    <section class="editor-output-container">
+        <div class="editor-section">
+            <textarea id="python-code" class="code-editor" rows="12">
+# Write your Python code here
+print("Hello from BinaryBrains!")
+            </textarea>
+            <button id="run-code-btn" class="run-button">Run Code</button>
+        </div>
+
+        <div class="output-section">
+            <h2>Output</h2>
+            <pre id="output" class="code-output">Your output will appear here...</pre>
+            <div id="syntax-error" class="error-message"></div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt-stdlib.js"></script>
+    <script src="/WD/BinaryBrains/js/python.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerical Aptitude Quiz - BinaryBrains</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid Layout */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Question Tile */
+        .question-tile {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-tile p {
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        /* Submit Button */
+        .cta-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Result Section */
+        .result {
+            text-align: center;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>Numerical Aptitude Quiz</h1>
+    </header>
+
+    <section class="quiz-container">
+        <form id="quiz-form">
+            <div class="question-grid" id="questions"></div>
+            <button type="submit" class="cta-button">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </section>
+
+    <footer>&copy; 2024 BinaryBrains. All rights reserved.</footer>
+
+    <script>
+        const questions = [
+            { question: "1. What is 15% of 200?", options: ["25", "30", "35", "40"], answer: "30" },
+            { question: "2. If 3 apples cost $2, how much do 12 apples cost?", options: ["$6", "$8", "$10", "$12"], answer: "$8" },
+            { question: "3. A car travels 240 miles in 4 hours. What is its average speed?", options: ["50 mph", "60 mph", "70 mph", "80 mph"], answer: "60 mph" },
+            { question: "4. What is the square root of 144?", options: ["10", "11", "12", "13"], answer: "12" },
+            { question: "5. If x + 5 = 12, what is x?", options: ["5", "6", "7", "8"], answer: "7" },
+            { question: "6. A rectangle has a length of 8 cm and a width of 3 cm. What is its area?", options: ["24 cm²", "30 cm²", "36 cm²", "40 cm²"], answer: "24 cm²" },
+            { question: "7. What is 8 multiplied by 7?", options: ["54", "56", "58", "60"], answer: "56" },
+            { question: "8. If a book costs $15 and you buy 3, what is the total cost?", options: ["$45", "$50", "$55", "$60"], answer: "$45" },
+            { question: "9. What is the value of 5² + 3²?", options: ["25", "34", "40", "50"], answer: "34" },
+            { question: "10. If a train travels 300 km in 5 hours, what is its speed?", options: ["50 km/h", "60 km/h", "70 km/h", "80 km/h"], answer: "60 km/h" },
+            { question: "11. A man has 5 times as many coins as his son. If the son has $10, how much does the man have?", options: ["$50", "$60", "$70", "$80"], answer: "$50" },
+            { question: "12. The sum of two numbers is 20. If one number is 12, what is the other?", options: ["5", "6", "7", "8"], answer: "8" },
+            { question: "13. What is 25% of 400?", options: ["80", "90", "100", "110"], answer: "100" },
+            { question: "14. If a car costs $20000 and depreciates by 10% per year, what will its value be after one year?", options: ["$18000", "$19000", "$20000", "$21000"], answer: "$18000" },
+            { question: "15. If you invest $100 at an interest rate of 5% per year, how much will you have after one year?", options: ["$100", "$105", "$110", "$115"], answer: "$105" },
+            { question: "16. What is the next number in the series: 2, 4, 8, 16, ...?", options: ["20", "22", "24", "32"], answer: "32" },
+            { question: "17. If 40% of a number is 80, what is the number?", options: ["150", "200", "250", "300"], answer: "200" },
+            { question: "18. A store is having a sale: 20% off a $50 item. What is the sale price?", options: ["$30", "$35", "$40", "$45"], answer: "$40" },
+            { question: "19. If you have 3 red marbles and 2 blue marbles, what is the probability of picking a red marble?", options: ["0.4", "0.5", "0.6", "0.7"], answer: "0.6" },
+            { question: "20. How many degrees are in a right angle?", options: ["90", "180", "360", "45"], answer: "90" },
+            { question: "21. What is the sum of the angles in a triangle?", options: ["90", "180", "270", "360"], answer: "180" },
+            { question: "22. If a shirt costs $30 and is on sale for 15% off, how much does it cost now?", options: ["$25.50", "$26", "$28.50", "$29"], answer: "$25.50" },
+            { question: "23. If 1 liter of paint covers 10 square meters, how many liters are needed for 50 square meters?", options: ["3", "4", "5", "6"], answer: "5" },
+            { question: "24. A recipe calls for 3 cups of flour for every 4 cups of sugar. If you use 6 cups of flour, how much sugar do you need?", options: ["6 cups", "8 cups", "9 cups", "12 cups"], answer: "8 cups" },
+            { question: "25. A car's fuel tank holds 40 liters. If it is 75% full, how many liters of fuel are in the tank?", options: ["25 liters", "30 liters", "35 liters", "40 liters"], answer: "30 liters" },
+            { question: "26. If you buy 5 books for $10 each, how much do you spend?", options: ["$40", "$50", "$60", "$70"], answer: "$50" },
+            { question: "27. How many hours are in a week?", options: ["24", "48", "168", "72"], answer: "168" },
+            { question: "28. A train travels 120 km in 2 hours. What is its speed?", options: ["50 km/h", "60 km/h", "70 km/h", "80 km/h"], answer: "60 km/h" },
+            { question: "29. If 5x = 45, what is x?", options: ["7", "8", "9", "10"], answer: "9" },
+            { question: "30. What is 50% of 600?", options: ["250", "300", "350", "400"], answer: "300" },
+        ];
+
+        // Load questions dynamically
+        const questionsContainer = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'question-tile';
+            tile.innerHTML = `
+                <p>${q.question}</p>
+                ${q.options.map((option) => `
+                    <label>
+                        <input type="radio" name="question${index}" value="${option}">
+                        ${option}
+                    </label>
+                `).join('')}
+            `;
+            questionsContainer.appendChild(tile);
+        });
+
+        // Calculate score on form submission
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('result').innerText = `Your score is ${score} out of ${questions.length}`;
+        });
+    </script>
+</body>
+</html>
