@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytical Reasoning Quiz - BinaryBrains</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid Layout */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Question Tile */
+        .question-tile {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-tile p {
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        /* Submit Button */
+        .cta-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Result Section */
+        .result {
+            text-align: center;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>Analytical Reasoning Quiz</h1>
+    </header>
+
+    <section class="quiz-container">
+        <form id="quiz-form">
+            <div class="question-grid" id="questions"></div>
+            <button type="submit" class="cta-button">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </section>
+
+    <footer>&copy; 2024 BinaryBrains. All rights reserved.</footer>
+
+    <script>
+        const questions = [
+            { question: "1. Which is the odd one out: Pen, Pencil, Eraser, Notebook?", options: ["Pen", "Pencil", "Eraser", "Notebook"], answer: "Notebook" },
+            { question: "2. If A is taller than B but shorter than C, who is the tallest?", options: ["A", "B", "C", "Can't say"], answer: "C" },
+            { question: "3. A train runs at 60 km/h and crosses a bridge in 1 minute. What is the length of the train?", options: ["500 m", "600 m", "800 m", "1000 m"], answer: "1000 m" },
+            { question: "4. If all roses are flowers and some flowers fade quickly, can we say that some roses fade quickly?", options: ["Yes", "No", "Can't say", "All roses fade quickly"], answer: "Can't say" },
+            { question: "5. In a certain code, 'COLD' is written as 'EQRJ'. How is 'WARM' written in that code?", options: ["YCDP", "YDPN", "XCPN", "YDCM"], answer: "YDCM" },
+            { question: "6. Five friends are sitting in a row. A is to the left of B but to the right of C. D is to the left of E. Who is sitting in the middle?", options: ["A", "B", "C", "D"], answer: "A" },
+            { question: "7. If the day before yesterday was Friday, what day is today?", options: ["Saturday", "Sunday", "Monday", "Tuesday"], answer: "Sunday" },
+            { question: "8. In a certain code language, 'CAT' is written as '3120'. How will 'DOG' be written?", options: ["4215", "4152", "2145", "4251"], answer: "4152" },
+            { question: "9. What is the next number in the series: 2, 4, 8, 16, ...?", options: ["24", "30", "32", "64"], answer: "32" },
+            { question: "10. Which letter replaces the question mark: A, D, G, J, ? ", options: ["M", "L", "K", "N"], answer: "M" },
+            { question: "11. If TOM = 80, then JERRY = ?", options: ["140", "160", "180", "200"], answer: "160" },
+            { question: "12. Which number does not belong in the following sequence: 2, 3, 5, 7, 9, 11?", options: ["3", "5", "9", "11"], answer: "9" },
+            { question: "13. A is twice as old as B. In 5 years, A will be 5 years older than B. How old is B now?", options: ["5", "10", "15", "20"], answer: "5" },
+            { question: "14. Which is the next number in the series: 1, 1, 2, 3, 5, 8, ...?", options: ["11", "12", "13", "14"], answer: "13" },
+            { question: "15. If 5 cats can catch 5 mice in 5 minutes, how many cats are needed to catch 100 mice in 50 minutes?", options: ["10", "20", "50", "100"], answer: "10" },
+            { question: "16. A clock shows 3:15. What is the angle between the hour and the minute hands?", options: ["0 degrees", "15 degrees", "45 degrees", "52.5 degrees"], answer: "52.5 degrees" },
+            { question: "17. If all squares are rectangles and some rectangles are blue, can we say that some squares are blue?", options: ["Yes", "No", "Can't say", "All squares are blue"], answer: "Can't say" },
+            { question: "18. What is the missing number: 5, 10, 20, ?, 80?", options: ["30", "40", "50", "60"], answer: "40" },
+            { question: "19. How many times can you subtract 5 from 25?", options: ["5", "4", "1", "None"], answer: "1" },
+            { question: "20. If it takes 5 men 10 days to complete a project, how many days will it take 10 men to complete the same project?", options: ["10", "5", "20", "15"], answer: "5" },
+            { question: "21. Which number is missing: 3, 6, 12, 24, ?", options: ["36", "48", "60", "72"], answer: "48" },
+            { question: "22. If a is greater than b, and b is greater than c, what can we say about a and c?", options: ["a > c", "a < c", "a = c", "Cannot determine"], answer: "a > c" },
+            { question: "23. A number is decreased by 25% and then increased by 25%. What is the net change?", options: ["0%", "5%", "6.25%", "12.5%"], answer: "6.25%" },
+            { question: "24. How many edges does a cube have?", options: ["6", "8", "12", "16"], answer: "12" },
+            { question: "25. If 4x + 5 = 25, what is x?", options: ["5", "4", "3", "6"], answer: "5" },
+            { question: "26. In a family of 6 members, A is the father of B. C is the mother of D. If D is the sister of B, what is the relationship of A with D?", options: ["Father", "Brother", "Uncle", "Can't say"], answer: "Father" },
+            { question: "27. Which is the next number in the series: 1, 1, 2, 3, 5, 8, ...?", options: ["11", "12", "13", "14"], answer: "13" },
+            { question: "28. If the day after tomorrow is Sunday, what day is today?", options: ["Friday", "Saturday", "Thursday", "Wednesday"], answer: "Friday" },
+            { question: "29. If a pen costs 20 cents, how much do 12 pens cost?", options: ["$2.20", "$2.40", "$2.60", "$2.80"], answer: "$2.40" },
+            { question: "30. If 'A' is coded as '1', 'B' as '2', and so on, what is the code for 'HELLO'?", options: ["8-5-12-12-15", "7-6-11-11-14", "6-7-10-10-13", "9-8-13-13-15"], answer: "8-5-12-12-15" }
+        ];
+
+        // Load questions dynamically
+        const questionsContainer = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'question-tile';
+            tile.innerHTML = `
+                <p>${q.question}</p>
+                ${q.options.map((option, i) => `
+                    <label>
+                        <input type="radio" name="question${index}" value="${option}">
+                        ${option}
+                    </label>
+                `).join('')}
+            `;
+            questionsContainer.appendChild(tile);
+        });
+
+        // Calculate score on form submission
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('result').innerText = `Your score is ${score} out of ${questions.length}`;
+        });
+    </script>
+</body>
+</html>
